@@ -1,0 +1,46 @@
+- if (results != null) {
+
+	h1(style="background-image:url(./plugin/"+uuid+"/public/icon.png)")
+		a(href=results.user.html_url) GitHub
+	h2 #{config.username.value}
+
+	table
+		tr
+			th #{results.user.public_repos}
+			th #{results.user.public_gists}
+			th #{results.user.followers}
+		tr
+			td
+				a(href=results.user.html_url+'?tab=repositories') Repos
+			td
+				a(href='https://gist.github.com/'+username) Gists
+			td
+				a(href=results.user.html_url+'/followers') Followers
+
+	div(class='seperator')
+
+	ul(class='table')
+		- var xMore = 0;
+		- for (var i = 0; i < results.repos.length; i++) {
+			- if (i < config.reposCount.value) {
+				li(class='list')
+					p(class='title')
+						a(href=results.repos[i].html_url) #{results.repos[i].name}
+					p(class='stars') #{results.repos[i].stargazers_count} &#10026;
+					p(class='text') #{results.repos[i].description}
+			- }
+			- else {
+				- xMore++;
+			- }
+		- }
+
+		- if (xMore > 0) {
+			li(class='list')
+				p(class='foother')
+					a(href=results.user.html_url+'?tab=repositories') and #{xMore} more...
+		- }
+
+- } else {
+	h1 GitHub
+	h2 loading...
+- }
